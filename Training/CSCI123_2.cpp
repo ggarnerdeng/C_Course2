@@ -11,8 +11,7 @@ void vectorProblem2(vector<int> v);
 void vectorProblem3(vector<int> v);
 void doubleArrayPuzzle(int a, int b);
 //void printDarray(int a[][]); THIS DOESNT WORK
-//void printDarray(int a[][10]); THIS DOES?>?>?
-
+//void printDarray(int a[][10]); THIS DOES?>?>? need to maintain rec shape
 
 int main(){
     //VECTORS
@@ -25,6 +24,8 @@ int main(){
         v.assign(s,e)   Set the size to s and then fill with e. clear + resize
         v.resize(n) .   Cuts or fills withdefault values
             v.resize(n, new_element); Fills with new_element
+        v.size() Length of the vector, as an int
+        v.at(pos) Extract/modify a single element
         */
     //vectorProblem1(1,2,3);
     //vector<int> v2 = {1,2,3,4,5,6,7,8};
@@ -32,11 +33,15 @@ int main(){
     //vectorProblem3(v2);
     //vector<vector<int>> b(8, vector<int>(8)); //vector of vectors
     //accessing vector element: b.at(x).at(y) // for vectors. Empty vectors fill default.
+//vector<int> vf(10); // Vector of size 10, all elements 0 (default)
+//vector<float> vf(5,-1.0); // Vector of size 5, all elements -1.0
 
     //ARRAYS
     //int a[] = {1, 2, 3}; // Size determined from initial contents;
     //int b[3]; // No initial contents -> must specify size
     //accessing array element: a[x][y] // for arrays. Empty arrays have UNDEFINED elements
+    //Looping over ALL elements of a container: 
+    //  for(int v : values) cout<<v<<endl;
     doubleArrayPuzzle(4,7);
     return 0;
 }
