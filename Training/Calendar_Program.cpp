@@ -29,7 +29,7 @@ int main(){
     calendar("3/-3/1951");
     calendar("-3/4/1951");
     calendar(input);
-
+    drawMonth("yes");
 
     return 0;
 }
@@ -149,4 +149,16 @@ void drawMonth(string input){
 
     cout.width(4);
     cout<<month<<"-"<<year<<endl;
+
+            int count = 1;
+
+    for(int y = 0; y < 6; y++ ){
+        for(int x = 0; x < 7; x++){
+            cout.width(3);
+            cout<<count<<" ";
+            count++;
+        }
+        cout<<endl;
+    }
 }
+
