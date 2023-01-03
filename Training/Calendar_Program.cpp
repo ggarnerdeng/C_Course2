@@ -1,16 +1,26 @@
+//Garner Deng
+//Jan-3-2023
+//Calender_Program.cpp returns the day of the week when given any input date, in m/d/yyyy format.
+
 #include <iostream>
 #include <cmath>
+#include <vector>
+#include <iterator>
+
 
 using namespace std;
 
 void calendar(string input);
 void drawMonth(string input);
+void insertBlank(vector<string>& v, int blanks);
+int day2num(string day);
+
 int main(){
     string input = "9/11/2001";
 
     cout<<"input M/D/YYYY: "<<endl;
         
-        drawMonth(input);
+    drawMonth(input);
 
     //getline(cin,input);
     calendar(input);
@@ -23,12 +33,10 @@ int main(){
     calendar("3/2/1951");
     calendar("3/3/1951");
     calendar("3/4/1951");
-
     calendar("13/1/1951");
     calendar("3/32/1951");
     calendar("3/-3/1951");
     calendar("-3/4/1951");
-    calendar(input);
     drawMonth("yes");
 
     return 0;
@@ -140,25 +148,62 @@ void calendar(string userInput){
 
 //Accepts a M/D/YYYY, and a Day input, and draws the Month in the console. 
 void drawMonth(string input){
-    //8/1/2017 was a Tuesday
+    //8/1/2017 was a Tuesday, so Sun/M are blank. 
     input = "yes";
     string month = "August";
     string day = "Tuesday";
     string year = "2017";
     int augDays = 31;
+    int count = 0;
+    bool pushed = false;
+    vector<string> monthV;
 
-    cout.width(4);
-    cout<<month<<"-"<<year<<endl;
+    for(int i = 1; i<32;i++){
+        monthV.push_back(std::to_string(i));
+    }
 
-            int count = 1;
+    insertBlank(monthV, day2num(day));
+    
+    cout<<endl<<month<<"-"<<year<<endl;
 
     for(int y = 0; y < 6; y++ ){
         for(int x = 0; x < 7; x++){
             cout.width(3);
-            cout<<count<<" ";
+            cout<<monthV.at(count)<<" ";
             count++;
+            if(count==monthV.size()){
+                break;
+            }
         }
+            if(count==monthV.size()){
+                break;
+            }
         cout<<endl;
     }
 }
 
+//adds number of blank spaces to beginning of vector of strings. 
+void insertBlank(vector<string>& v, int blanks){
+    string blank = " ";
+    for(int i = 0; i < blanks; i++){
+        v.insert(v.begin(), blank);
+    }
+}
+
+int day2num(string day){
+    if(day=="Sunday"){
+        return 0;
+    }else if(day=="Monday"){
+        return 1;
+    }else if(day=="Tuesday"){
+        return 2;
+    }else if(day=="Wednesday"){
+        return 3;
+    }else if(day=="Thursday"){
+        return 4;
+    }else if(day=="Friday"){
+        return 5;
+    }else if(day=="Saturday"){
+        return 6;
+    }
+}
