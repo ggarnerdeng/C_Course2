@@ -14,53 +14,78 @@ void drawMonth(int monthNum, int dayNum, int yearNum, string day);
 void insertBlank(vector<string>& v, int blanks);
 int day2num(string day);
 string num2day(int num);
+void printCurYear();
 
 const int TEST_YEAR = 1924;   //Seed Year. Do not change.
 
-bool MARK_DATE = false;       //Mark the date with "__".
+//following is for testing purposes only.
+bool MARK_DATE = true;       //Mark the date with "__".
 bool CURRENT_YEAR = true;     //List all the months of the current year.
 bool INPUT_ONLY = true;       //Only print the user input.
+bool test = false;
 
 int main(){
+    int userInput=1;
     string input = "9/11/2001";
 
-    if(INPUT_ONLY){
-        MARK_DATE = true;
-        cout<<"input M/D/YYYY: "<<endl<<"      ";
-        getline(cin,input);
-        calendar(input);
-    }else{
-        string testDates[] = {
-        input,
-        "2/25/1951",
-        "2/26/1951",
-        "2/27/1951",
-        "2/28/1951",
-        "2/29/1951",
-        "13/1/1951",
-        "5/31/1968",
-        "2/28/1972",
-        "8/9/1988",
-        "3/1/1996",
-        "5/26/2023",
-        };
-        
-        if(!CURRENT_YEAR){
-            for(string e : testDates)
-            calendar(e);
-        }else{
-            time_t now = time(0);
-            tm *ltm = localtime(&now);
-            string currentYear1 = to_string(1900 + ltm->tm_year);
-            vector<string> allMonths= {"1/1/","2/1/","3/1/","4/1/","5/1/","6/1/","7/1/","8/1/","9/1/","10/1/","11/1/","12/1/"};
-            for(string& e : allMonths)
-                e += currentYear1;
-            for(string e : allMonths)
-                calendar(e);
-        }  
-    }
+    do{
+        cout<<"Press button: "<<endl<<"0: EXIT"<<endl<<"1: Input M/D/YYYY"<<endl<<"2: List entire calendar for this year."<<endl;
+            
+        cin>>userInput;
+        cin.ignore(10000, '\n');
 
+        if(userInput == 1){
+            cout<<"input M/D/YYYY: "<<endl<<"      ";
+            getline(cin,input);
+            calendar(input);
+        }else if(userInput == 2){
+            printCurYear();
+        }
+    }while(userInput!=0);
+
+    if(test){
+        if(INPUT_ONLY){
+            MARK_DATE = true;
+            cout<<"input M/D/YYYY: "<<endl<<"      ";
+            getline(cin,input);
+            calendar(input);
+        }else{
+            string testDates[] = {
+            input,
+            "2/25/1951",
+            "2/26/1951",
+            "2/27/1951",
+            "2/28/1951",
+            "2/29/1951",
+            "13/1/1951",
+            "5/31/1968",
+            "2/28/1972",
+            "8/9/1988",
+            "3/1/1996",
+            "5/26/2023",
+            };
+            
+            if(!CURRENT_YEAR){
+                for(string e : testDates)
+                calendar(e);
+            }else{
+                printCurYear();
+            }  
+        }
+    }
     return 0;
+}
+
+//Prints current year
+void printCurYear(){
+    time_t now = time(0);
+    tm *ltm = localtime(&now);
+    string currentYear1 = to_string(1900 + ltm->tm_year);
+    vector<string> allMonths= {"1/1/","2/1/","3/1/","4/1/","5/1/","6/1/","7/1/","8/1/","9/1/","10/1/","11/1/","12/1/"};
+        for(string& e : allMonths)
+            e += currentYear1;
+        for(string e : allMonths)
+            calendar(e);
 }
 
 //Finds day of the week given a date in M/D/YYYY format. Works for all dates past 1924
