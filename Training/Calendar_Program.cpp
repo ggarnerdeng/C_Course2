@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <iterator>
+#include <ctime>
 
 using namespace std;
 
@@ -14,13 +15,23 @@ void insertBlank(vector<string>& v, int blanks);
 int day2num(string day);
 string num2day(int num);
 
+const int TEST_YEAR = 1924;   //Seed Year. Do not change.
+
+bool MARK_DATE = false;       //Mark the date with "__".
+bool CURRENT_YEAR = true;     //List all the months of the current year.
+bool INPUT_ONLY = true;       //Only print the user input.
+
 int main(){
     string input = "9/11/2001";
 
-    cout<<"input M/D/YYYY: "<<endl;
-        //getline(cin,input);
-
-    string listInputs[] = {
+    if(INPUT_ONLY){
+        MARK_DATE = true;
+        cout<<"input M/D/YYYY: "<<endl<<"      ";
+        getline(cin,input);
+        calendar(input);
+    }else{
+        string testDates[] = {
+        input,
         "2/25/1951",
         "2/26/1951",
         "2/27/1951",
@@ -32,10 +43,22 @@ int main(){
         "8/9/1988",
         "3/1/1996",
         "5/26/2023",
-    };
-
-    for(string e : listInputs)
-        calendar(e);
+        };
+        
+        if(!CURRENT_YEAR){
+            for(string e : testDates)
+            calendar(e);
+        }else{
+            time_t now = time(0);
+            tm *ltm = localtime(&now);
+            string currentYear1 = to_string(1900 + ltm->tm_year);
+            vector<string> allMonths= {"1/1/","2/1/","3/1/","4/1/","5/1/","6/1/","7/1/","8/1/","9/1/","10/1/","11/1/","12/1/"};
+            for(string& e : allMonths)
+                e += currentYear1;
+            for(string e : allMonths)
+                calendar(e);
+        }  
+    }
 
     return 0;
 }
@@ -44,7 +67,6 @@ int main(){
 void calendar(string input){
     string answer, passed;
     int day,month,year,total,month2day,year2day;
-    const int TEST_YEAR = 1924;
 
     day = stoi(input.substr(input.find("/")+1,input.rfind("/")-input.find("/")-1));
     month = stoi(input.substr(0,input.find("/")));
@@ -71,7 +93,6 @@ void calendar(string input){
 
         drawMonth(month,day,year+TEST_YEAR,num2day((year2day +month2day + 1) % 7));
     }
-
 }
 
 //Converts day Int into day String. Based on 1924 date.
@@ -139,7 +160,7 @@ void drawMonth(int monthNum, int dayNum, int yearNum, string day){
 
     //Draws month
     for(int i = 1; i < 1 + daysInMonth; i++){
-        dayNum == i ? monthV.push_back("__") : monthV.push_back(std::to_string(i));
+        MARK_DATE ? (dayNum == i ? monthV.push_back("__") : monthV.push_back(std::to_string(i))) : (monthV.push_back(std::to_string(i)));
     }
 
     insertBlank(monthV, day2num(day));
@@ -161,7 +182,7 @@ void drawMonth(int monthNum, int dayNum, int yearNum, string day){
     cout<<endl;
 }
 
-//adds number of blank spaces to beginning of vector of strings. 
+//adds number of blank spaces to beginning of vector of strings, and then the day titles
 void insertBlank(vector<string>& v, int blanks){
     string dayNames[] = {"Sa","F","Th","W","Tu","M","Su"};
 
