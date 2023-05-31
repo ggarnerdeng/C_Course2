@@ -1,6 +1,14 @@
 
 #include <iostream>
-#include <curl/curl.h>
+//#include <curl/curl.h>
+#include "C:\Users\ggarn\Downloads\curl-7.87.0\include\curl\curl.h"
+using namespace std;
+
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+//#include <curl/curl.h>
 
 using namespace std;
 
@@ -11,14 +19,14 @@ int main() {
 
     string downloadLink = "https://wave.video/convert/youtube-to-mp4?youtube_url=" + youtubeLink + "&resolution=720p";
 
-    CURL* curl;
-    FILE* fp;
+    CURL *curl;
+    FILE *fp;
     CURLcode res;
-    char* url = &downloadLink[0u];
+    char *url = &downloadLink[0u];
     char outfilename[FILENAME_MAX] = "video.mp4";
     curl = curl_easy_init();
     if (curl) {
-        fp = fopen(outfilename, "wb");
+        fp = fopen(outfilename,"wb");
         curl_easy_setopt(curl, CURLOPT_URL, url);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
